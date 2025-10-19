@@ -5,15 +5,16 @@
 #include "InputHandler.h"
 #include "main.h"
 
-#include "tusb.h"
-#include "tusb_config.h"
-
-std::bitset<5> enabled = 0b10111;
+#include "usb_descriptors.h"
 
 void app_setup()
 {
     stdio_init_all();
     tusb_init();
+
+    std::vector<int> rowADC = {0, 1};
+    std::vector<int> colPins = {2, 3, 4};
+    FSR = new FSRMatrix(rowADC, colPins);
 }
 
 void app_loop()
@@ -31,6 +32,7 @@ int main()
     }
 }
 
+float thresholds[] = {1.8, 1.8, 1.5, 1.7, 1.3};
 
 hid_custom_report_t hid_task()
 {
@@ -38,26 +40,16 @@ hid_custom_report_t hid_task()
         .buttons = 0,
     }; 
     
+    std::vector<float> data(FSR->updateFSR());
+
     // way to read from bitset
-    for(int i = 0; i < enabled.size(); i++)
+    for(int i = 0; i < BUTTON_COUNT; i++)
     {
-        if(enabled[i])
-        {
+        bool en = data[i] < thresholds[i];
+        if(en) {
             report.buttons |= TU_BIT(i);
         }
     }
-
-    // unsigned long long endTime = board_millis();
-    // static int button = 0;
-    // if(board_millis() - endTime > 100)
-    // {
-    //     endTime = board_millis();
-
-    //     button++;
-    //     button %= 10;
-    // }
-    
-    // report.buttons |= TU_BIT(button);
 
     return report;
 }

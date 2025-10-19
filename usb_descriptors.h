@@ -25,6 +25,9 @@
 #ifndef USB_DESCRIPTORS_H_
 #define USB_DESCRIPTORS_H_
 
+#define BUFFER_MAX   32
+#define BUTTON_COUNT 5
+
 enum
 {
   REPORT_ID_KEYBOARD = 1,

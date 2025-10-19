@@ -27,9 +27,6 @@
 #include "tusb.h"
 #include "usb_descriptors.h"
 
-#define BUFFER_MAX   32
-#define BUTTON_COUNT 5
-
 // redefine
 #define TUD_HID_REPORT_DESC_GAMEPAD_CUSTOM(...) \
   HID_USAGE_PAGE      ( HID_USAGE_PAGE_DESKTOP                  ) ,\
