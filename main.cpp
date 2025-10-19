@@ -2,8 +2,11 @@
 #include "pico/stdlib.h"
 #include <bitset>
 
+#include "InputHandler.h"
 #include "main.h"
-#include "DanceInputHandler.h"
+
+#include "tusb.h"
+#include "tusb_config.h"
 
 std::bitset<5> enabled = 0b10111;
 
@@ -32,9 +35,9 @@ int main()
 hid_custom_report_t hid_task()
 {
     hid_custom_report_t report = {
-        .buttons = 0
-    };
-
+        .buttons = 0,
+    }; 
+    
     // way to read from bitset
     for(int i = 0; i < enabled.size(); i++)
     {

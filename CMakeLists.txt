@@ -39,7 +39,8 @@ add_executable(piu_gamepad
         main.cpp
         usb_descriptors.c
         callbacks.c
-        DanceInputHandler.cpp
+        InputHandler.cpp
+        FSR.cpp
         )
 
 pico_set_program_name(piu_gamepad "piu_gamepad")
@@ -56,6 +57,7 @@ target_link_libraries(piu_gamepad
         pico_unique_id
         tinyusb_device
         tinyusb_board
+        hardware_adc
         )
 
 # Add the standard include files to the build

@@ -28,37 +28,47 @@
 #include "usb_descriptors.h"
 
 #define BUFFER_MAX   32
-#define BUTTON_COUNT 10
+#define BUTTON_COUNT 5
 
 // redefine
 #define TUD_HID_REPORT_DESC_GAMEPAD_CUSTOM(...) \
-  HID_USAGE_PAGE ( HID_USAGE_PAGE_DESKTOP     )                 ,\
-  HID_USAGE      ( HID_USAGE_DESKTOP_GAMEPAD  )                 ,\
-  HID_COLLECTION ( HID_COLLECTION_APPLICATION )                 ,\
+  HID_USAGE_PAGE      ( HID_USAGE_PAGE_DESKTOP                  ) ,\
+  HID_USAGE           ( HID_USAGE_DESKTOP_GAMEPAD               ) ,\
+  HID_COLLECTION      ( HID_COLLECTION_APPLICATION              ) ,\
     /* Report ID if any */\
     __VA_ARGS__ \
     /* 32 bit Button Map */ \
-    HID_USAGE_PAGE     ( HID_USAGE_PAGE_BUTTON                  ) ,\
-    HID_USAGE_MIN      ( 1                                      ) ,\
-    HID_USAGE_MAX      ( BUTTON_COUNT                           ) ,\
-    HID_LOGICAL_MIN    ( 0                                      ) ,\
-    HID_LOGICAL_MAX    ( 1                                      ) ,\
-    HID_REPORT_COUNT   ( BUTTON_COUNT                           ) ,\
-    HID_REPORT_SIZE    ( 1                                      ) ,\
-    HID_INPUT          ( HID_DATA | HID_VARIABLE | HID_ABSOLUTE ) ,\
-    /* Padding */ \
-    HID_REPORT_COUNT   ( 1                                      ) ,\
-    HID_REPORT_SIZE    ( BUFFER_MAX - BUTTON_COUNT              ) ,\
-    HID_INPUT          ( HID_CONSTANT | HID_VARIABLE | HID_ABSOLUTE | HID_WRAP_NO | HID_LINEAR | HID_PREFERRED_STATE | HID_NO_NULL_POSITION) ,\
-  HID_COLLECTION_END \
-
-
+    HID_USAGE_PAGE      ( HID_USAGE_PAGE_BUTTON                   ) ,\
+      HID_USAGE_MIN       ( 1                                       ) ,\
+      HID_USAGE_MAX       ( BUTTON_COUNT                            ) ,\
+      HID_LOGICAL_MIN     ( 0                                       ) ,\
+      HID_LOGICAL_MAX     ( 1                                       ) ,\
+      HID_REPORT_COUNT    ( BUTTON_COUNT                            ) ,\
+      HID_REPORT_SIZE     ( 1                                       ) ,\
+      HID_INPUT           ( HID_DATA | HID_VARIABLE | HID_ABSOLUTE  ) ,\
+      /* Padding */ \
+      HID_REPORT_COUNT    ( 1                                       ) ,\
+      HID_REPORT_SIZE     ( BUFFER_MAX - BUTTON_COUNT               ) ,\
+      HID_INPUT           ( HID_CONSTANT | HID_VARIABLE | HID_ABSOLUTE | HID_WRAP_NO | HID_LINEAR | HID_PREFERRED_STATE | HID_NO_NULL_POSITION) ,\
+      HID_COLLECTION_END \
+    // HID_USAGE_PAGE     ( HID_USAGE_PAGE_DESKTOP                 ) ,\
+    //   HID_USAGE          ( HID_USAGE_DESKTOP_SLIDER                    ) ,\
+    //   HID_USAGE          ( HID_USAGE_DESKTOP_SLIDER                    ) ,\
+    //   HID_USAGE          ( HID_USAGE_DESKTOP_SLIDER                    ) ,\
+    //   HID_USAGE          ( HID_USAGE_DESKTOP_SLIDER                    ) ,\
+    //   HID_USAGE          ( HID_USAGE_DESKTOP_SLIDER                    ) ,\
+    //   HID_LOGICAL_MIN    ( 0                                      ) ,\
+    //   HID_LOGICAL_MAX    ( 0xFFF                                  ) ,\
+    //   HID_REPORT_COUNT   ( 5                                      ) ,\
+    //   HID_REPORT_SIZE    ( 16                                     ) ,\
+    //   HID_INPUT          ( HID_DATA | HID_VARIABLE | HID_ABSOLUTE ) ,\
+      
 /* A combination of interfaces must have a unique product id, since PC will save device driver after the first plug.
- * Same VID/PID with different interface e.g MSC (first), then CDC (later) will possibly cause system error on PC.
- *
- * Auto ProductID layout's Bitmap:
- *   [MSB]         HID | MSC | CDC          [LSB]
- */
+* Same VID/PID with different interface e.g MSC (first), then CDC (later) will possibly cause system error on PC.
+*
+* Auto ProductID layout's Bitmap:
+*   [MSB]         HID | MSC | CDC          [LSB]
+*/
 #define _PID_MAP(itf, n)  ( (CFG_TUD_##itf) << (n) )
 // #define USB_PID           (0x4000 | _PID_MAP(CDC, 0) | _PID_MAP(MSC, 1) | _PID_MAP(HID, 2) | \
 //                            _PID_MAP(MIDI, 3) | _PID_MAP(VENDOR, 4) )
@@ -89,7 +99,7 @@ tusb_desc_device_t const desc_device =
 
     .iManufacturer      = 0x01,
     .iProduct           = 0x02,
-    .iSerialNumber      = 0x03,
+    .iSerialNumber      = 0x01,
 
     .bNumConfigurations = 0x01
 };
@@ -211,10 +221,10 @@ char serial[2 * PICO_UNIQUE_BOARD_ID_SIZE_BYTES + 1];
 // array of pointer to string descriptors
 char const* string_desc_arr [] =
 {
-  (const char[]) { 0x09, 0x04 }, // 0: is supported language is English (0x0409)
-  "Alex",                        // 1: Manufacturer
-  "Pump It Up Pad",        // 2: Product
-  serial,                        // 3: Serials, uses the flash ID
+  (const char[]) { 0x09, 0x04 },  // 0: is supported language is English (0x0409)
+  "Alex",                         // 1: Manufacturer
+  "Pump It Up Pad",               // 2: Product
+  serial,                         // 3: Serials, uses the flash ID
 };
 
 static uint16_t _desc_str[32];

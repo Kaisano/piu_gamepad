@@ -40,8 +40,20 @@ uint16_t tud_hid_get_report_cb(uint8_t instance, uint8_t report_id, hid_report_t
     (void)report_type;
     (void)buffer;
     (void)reqlen;
-
     return 0;
+    // // Fill buffer with your data  
+    // uint8_t data[64] = {0};  
+      
+    // // Example: Fill with some data  
+    // for (int i = 0; i < reqlen && i < 64; i++) {  
+    //     data[i] = i;  
+    // }  
+      
+    // // Copy to buffer  
+    // memcpy(buffer, data, reqlen);  
+      
+    // // Return the actual length of data  
+    // return reqlen;  
 }
 
 // Invoked when received SET_REPORT control request or

@@ -1,4 +1,4 @@
-#include "DanceInputHandler.h"
+#include "InputHandler.h"
 
 void send_report(hid_custom_report_t report)
 {

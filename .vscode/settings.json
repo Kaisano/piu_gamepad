@@ -42,6 +42,11 @@
         "*.rmd": "markdown",
         "main.h": "c",
         "danceinputhandler.h": "c",
-        "tusb_config.h": "c"
+        "tusb_config.h": "c",
+        "bitset": "cpp",
+        "array": "cpp",
+        "string_view": "cpp",
+        "initializer_list": "cpp",
+        "span": "cpp"
     }
 }
