@@ -41,6 +41,7 @@ add_executable(piu_gamepad
         callbacks.c
         InputHandler.cpp
         FSR.cpp
+        button.cpp
         )
 
 pico_set_program_name(piu_gamepad "piu_gamepad")
